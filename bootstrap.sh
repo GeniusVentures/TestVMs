@@ -32,11 +32,11 @@ apt-get -y update
 #xdebug.remote_connect_back=1
 #EOL
 
-###
+###ls -
 # Development Tools
 ###
-echo -e "$CYAN--- Installing Development tools ---$NO_COLOR"
-apt-get -y install g++
+echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
+apt-get -y install g++ cmake libboost-all-dev
 
 ###
 # open up ports

@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "generic/ubuntu1804"
+  config.vm.box = "geerlingguy/ubuntu2004"
 
   # Create 2 nodes
   (1..2).each do |i|
