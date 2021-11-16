@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # finally do any post processing after submodules are configured
       node.vm.provision :shell, :path => "postboot.sh"
       # and set the synced_folder for access to the source
-      config.vm.synced_folder "../../../../", "/SSDevelopment"
+      config.vm.synced_folder "../../../../../", "/SSDevelopment"
     end
   end
 
