@@ -19,6 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.provider "virtualbox" do |v|
         v.memory = 2048
         v.cpus = 2
+	v.customize ["modifyvm", :id, "--usbehci", "on"]
       end
       # Set private network address to 192.168.33.100 + i
       node.vm.network :private_network, ip: "192.168.33.10#{i}", bridge: "en0: Ethernet"
