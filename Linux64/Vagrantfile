@@ -20,10 +20,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         v.memory = 4096
         v.cpus = 4
 	v.customize ["modifyvm", :id, "--usbehci", "on"]
+	v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/Development", "1"]
       end
       # Set private network address to 192.168.33.100 + i
       node.vm.network :private_network, ip: "192.168.33.10#{i}", bridge: "en0: Ethernet"
       node.vm.provision :shell, :path => "bootstrap.sh"
+
+
       # Now do submodule / Virtual host specific setups
       # run through submodule configs for both nodes
       submodconfigArray = Dir['**/submodconfig.sh']

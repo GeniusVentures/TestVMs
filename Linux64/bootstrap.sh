@@ -22,18 +22,43 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ llvm cmake 
+apt-get -y install g++ llvm cmake ntp  zlib1g-dev
+echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
+cd /usr/local/src
+wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
+tar -xf openssl-1.1.1t.tar.gz >/dev/null 2>&1 
+cd openssl-1.1.1t
+echo -e "$CYAN--- Building OpenSSL 1.1.1t ---$NO_COLOR"
+./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib >>build.log 2>&1
+make install >>build.log 2>&1
+echo -e "$CYAN--- Installing Rust/Cargo ---$NO_COLOR"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+. "$HOME/.cargo/env" 
+cargo install cbindgen >rust-install.log 2>&1
+rustup target add wasm32-unknown-emscripten >rust-install.log 2>&1
+cp -R /root/.cargo /home/vagrant >/dev/null 2>&1
+cp -R /root/.rustup /home/vagrant >/dev/null 2>&1
+chown vagrant:vagrant /home/vagrant/.cargo /home/vagrant/.rustup
+echo -e "$CYAN--- Installing RVN/Ruby ---$NO_COLOR"
+gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io | bash -s stable  >>ruby-build.log 2>&1
+source /etc/profile.d/rvm.sh
+rvm install ruby-2.7.8 --with-openssl-dir=/usr/local/ssl/ >>ruby-build.log 2>&1
+rvm --default use ruby-2.7.8 
 
 # setup android NDK link.
 
 cat << EOF >> /home/vagrant/.profile
-export MAKEFLAGS="-j 8"
+export MAKEFLAGS="-j8"
 export CMAKE_BUILD_PARALLEL_LEVEL=8
 declare -x ANDROID_HOME="/SSDevelopment/Development/ThirdParty/Android"
-declare -x ANDROID_NDK="$ANDROID_HOME/ndk/android-ndk-r23b"
-declare -x ANDROID_NDK_HOME="$ANDROID_NDK"
-declare -x ANDROID_TOOLCHAIN="$ANDROID_NDK/toolchains/llvm/prebuilt/Linux-x86_64/bin"
-export PATH="$ANDROID_TOOLCHAIN:$PATH"
+declare -x ANDROID_NDK="\$ANDROID_HOME/ndk/android-ndk-r23b"
+declare -x ANDROID_NDK_HOME="\$ANDROID_NDK"
+declare -x ANDROID_TOOLCHAIN="\$ANDROID_NDK/toolchains/llvm/prebuilt/Linux-x86_64/bin"
+export PATH="\$ANDROID_TOOLCHAIN:\$PATH"
+alias sd='cd /Development/GeniusVentures/GeniusTokens/' 
+. "\$HOME/.cargo/env"
+. /etc/profile.d/rvm.sh
 EOF
 
 ln -s /usr/bin/python3 /usr/bin/python
