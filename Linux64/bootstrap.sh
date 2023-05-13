@@ -29,19 +29,23 @@ wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz
 tar -xf openssl-1.1.1t.tar.gz >/dev/null 2>&1 
 cd openssl-1.1.1t
 echo -e "$CYAN--- Building OpenSSL 1.1.1t ---$NO_COLOR"
-./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib >>build.log 2>&1
+./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib >build.log 2>&1
 make install >>build.log 2>&1
 echo -e "$CYAN--- Installing Rust/Cargo ---$NO_COLOR"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 . "$HOME/.cargo/env" 
+echo -e "$CYAN--- Installing cbindgen ---$NO_COLOR"
 cargo install cbindgen >rust-install.log 2>&1
+echo -e "$CYAN--- Installing wasm32-unknown-emscripten ---$NO_COLOR"
 rustup target add wasm32-unknown-emscripten >rust-install.log 2>&1
 cp -R /root/.cargo /home/vagrant >/dev/null 2>&1
 cp -R /root/.rustup /home/vagrant >/dev/null 2>&1
-chown vagrant:vagrant /home/vagrant/.cargo /home/vagrant/.rustup
-echo -e "$CYAN--- Installing RVN/Ruby ---$NO_COLOR"
-gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+chown -R vagrant:vagrant /home/vagrant/.cargo /home/vagrant/.rustup
+echo -e "$CYAN--- Installing RVM/Ruby GPG Keys ---$NO_COLOR"
+gpg --keyserver keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB >ruby-build.log 2>&1
+echo -e "$CYAN--- Downloading RVM/Ruby ---$NO_COLOR"
 curl -sSL https://get.rvm.io | bash -s stable  >>ruby-build.log 2>&1
+echo -e "$CYAN--- Installing Ruby 2.7.8 ---$NO_COLOR"
 source /etc/profile.d/rvm.sh
 rvm install ruby-2.7.8 --with-openssl-dir=/usr/local/ssl/ >>ruby-build.log 2>&1
 rvm --default use ruby-2.7.8 
