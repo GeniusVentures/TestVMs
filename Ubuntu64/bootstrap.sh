@@ -22,7 +22,7 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ llvm cmake ntp  zlib1g-dev
+apt-get -y install g++ clang llvm cmake ntp  zlib1g-dev
 echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
 cd /usr/local/src
 wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
