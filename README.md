@@ -10,14 +10,22 @@ Install VirtualBox (recommended VM Manager)
 
 This currently has only one instance that is launches.  You can modify Vagrantfile under Ubunutu to launch more than one instance.
 
+``` ruby
+# Create 1 nodes
+  (1..1).each do |i|
+  
+# Create 10 nodes
+  (1..10).each do |i|
 ```
+
+``` bash
 cd Ubuntu64
 vagrant up
 ```
 
 Wait for the instance to launch.
 
-```
+``` bash
 vagrant ssh 
 ```
 
@@ -37,7 +45,7 @@ host vlinux
 
 now you instead, do the following on git-bash in Windows.
 
-```
+``` bash
 ssh vlinux
 ```
 
