@@ -8,7 +8,7 @@ Install VirtualBox (recommended VM Manager)
 
 [Virtual Box Download](https://www.virtualbox.org/wiki/Downloads)
 
-This currently has only one instance that is launches.  You can modify Vagrantfile under Ubunutu to launch more than one instance.
+This currently has only one instance that is launches.  You can modify 'Vagrantfile' under Ubuntu64 directory to launch more than one instance.
 
 ``` ruby
 # Create 1 nodes
