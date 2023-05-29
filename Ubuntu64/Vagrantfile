@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "generic/ubuntu2204"
 
   # Create 1 nodes
-  (1..1).each do |i|
+  (1..2).each do |i|
     config.vm.define "node-#{i}" do |node|
       # Configure memory and cpus for virtual box
       node.vm.provider "virtualbox" do |v|
@@ -22,8 +22,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	v.customize ["modifyvm", :id, "--usbehci", "on"]
 	v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/Development", "1"]
       end
-      # Set private network address to 192.168.33.100 + i
-      node.vm.network :private_network, ip: "192.168.33.10#{i}", bridge: "en0: Ethernet"
+      # Set private network address to 192.168.56.100 + i
+      node.vm.network :private_network, ip: "192.168.56.10#{i}", bridge: "en0: Ethernet"
       node.vm.provision :shell, :path => "bootstrap.sh"
 
 
