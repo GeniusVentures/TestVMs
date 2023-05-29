@@ -11,7 +11,7 @@ Install VirtualBox (recommended VM Manager)
 This currently has only one instance that is launches.  You can modify Vagrantfile under Ubunutu to launch more than one instance.
 
 ```
-cd Ubunutu
+cd Ubuntu64
 vagrant up
 ```
 
