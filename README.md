@@ -8,7 +8,7 @@ Install VirtualBox (recommended VM Manager)
 
 [Virtual Box Download](https://www.virtualbox.org/wiki/Downloads)
 
-This currently has only one instance that is launches.  You can modify 'Vagrantfile' under Ubuntu64 directory to launch more than one instance.
+This currently has two Ubunutu instances that is launches.  You can modify 'Vagrantfile' under Ubuntu64 directory to launch more than one instance.
 
 ``` ruby
 # Create 1 nodes
@@ -23,10 +23,11 @@ cd Ubuntu64
 vagrant up
 ```
 
-Wait for the instance to launch.
+Wait for the instance(s) to launch.
 
 ``` bash
-vagrant ssh 
+vagrant ssh node-1
+vagrant ssh node-2
 ```
 
 will get you into the vagrant Linux Instance.
