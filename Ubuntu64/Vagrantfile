@@ -21,6 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         v.cpus = 4
 	v.customize ["modifyvm", :id, "--usbehci", "on"]
 	v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/Development", "1"]
+        v.gui = true
       end
       # Set private network address to 192.168.56.100 + i
       node.vm.network :private_network, ip: "192.168.56.10#{i}", bridge: "en0: Ethernet"

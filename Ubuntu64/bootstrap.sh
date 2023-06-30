@@ -22,7 +22,7 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ clang llvm cmake ntp  zlib1g-dev
+apt-get -y install g++ clang llvm cmake ntp zlib1g-dev lib-gtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev
 echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
 cd /usr/local/src
 wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
@@ -50,12 +50,16 @@ source /etc/profile.d/rvm.sh
 rvm install ruby-2.7.8 --with-openssl-dir=/usr/local/ssl/ >>ruby-build.log 2>&1
 rvm --default use ruby-2.7.8 
 
+echo -e "$CYAN--- Installing Minimal Desktop ---$NO_COLOR"
+apt-get install ubuntu-desktop-minimal -y
+echo -e "$CYAN--- Installing Ruby 2.7.8 ---$NO_COLOR"
+
 # setup android NDK link.
 
 cat << EOF >> /home/vagrant/.profile
 export MAKEFLAGS="-j8"
 export CMAKE_BUILD_PARALLEL_LEVEL=8
-declare -x ANDROID_HOME="/SSDevelopment/Development/ThirdParty/Android"
+declare -x ANDROID_HOME="//Development/ThirdParty/Android"
 declare -x ANDROID_NDK="\$ANDROID_HOME/ndk/android-ndk-r23b"
 declare -x ANDROID_NDK_HOME="\$ANDROID_NDK"
 declare -x ANDROID_TOOLCHAIN="\$ANDROID_NDK/toolchains/llvm/prebuilt/Linux-x86_64/bin"
@@ -63,6 +67,8 @@ export PATH="\$ANDROID_TOOLCHAIN:\$PATH"
 alias sd='cd /Development/GeniusVentures/GeniusTokens/' 
 . "\$HOME/.cargo/env"
 . /etc/profile.d/rvm.sh
+export PATH="$PATH:/Development/GeniusVentures/GeniusTokens/thirdparty/flutter/bin"
+
 EOF
 
 ln -s /usr/bin/python3 /usr/bin/python
