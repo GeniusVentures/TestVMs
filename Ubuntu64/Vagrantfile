@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "generic/ubuntu2204"
 
   # Create 1 nodes
-  (1..2).each do |i|
+  (1..1).each do |i|
     config.vm.define "node-#{i}" do |node|
       # Configure memory and cpus for virtual box
       node.vm.provider "virtualbox" do |v|
