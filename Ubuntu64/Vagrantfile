@@ -15,6 +15,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create 1 nodes
   (1..1).each do |i|
     config.vm.define "node-#{i}" do |node|
+    if Vagrant.has_plugin?("vagrant-vbguest") then
+       config.vbguest.auto_update = false
+    end
       # Configure memory and cpus for virtual box
       node.vm.provider "virtualbox" do |v|
         v.memory = 4096

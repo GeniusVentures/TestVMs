@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # All Vagrant configuration is done here. The most common configuration
+  # options are documented and commented below. For a complete reference,
+  # please see the online documentation at vagrantup.com.
+
+  VAGRANT_EXPERIMENTAL="disks"
+  config.vm.box = "generic/ubuntu2204"
+  config.vm.disk :disk, size: "50GB", primary: true
+
+  # Create 1 nodes
+  (1..1).each do |i|
+    config.vm.define "desktop-#{i}" do |node|
+      # Configure memory and cpus for virtual box
+      node.vm.provider "virtualbox" do |v|
+        v.memory = 4096
+        v.cpus = 4
+	v.customize ["modifyvm", :id, "--usbehci", "on"]
+	v.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/Development", "1"]
+        v.customize ["modifyvm", :id, "--vram", "128"]
+        v.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+        v.customize ["modifyvm", :id, "--clipboard-mode", "bidirectional"]
+        v.customize ["modifyvm", :id, "--draganddrop", "bidirectional"]
+        v.gui = true
+      end
+
+      # Set ssh host to 127.0.0.1 port 2300 + i
+      config.ssh.host = "127.0.0.1"
+      config.vm.network :forwarded_port, guest: 22, host: "230#{i}", id: 'ssh'
+
+      # Set private network address to 192.168.58.100 + i
+      node.vm.network :private_network, ip: "192.168.58.10#{i}", bridge: "en0: Ethernet"
+      node.vm.provision :shell, :path => "bootstrap.sh"
+
+
+      # Now do submodule / Virtual host specific setups
+      # run through submodule configs for both nodes
+      submodconfigArray = Dir['**/submodconfig.sh']
+      submodconfigArray.each {
+        |fname|
+        node.vm.provision :shell, :path => fname
+      }
+      # finally do any post processing after submodules are configured
+      node.vm.provision :shell, :path => "postboot.sh"
+      # and set the synced_folder for access to the source
+      config.vm.synced_folder "../../../../", "/Development"
+    end
+  end
+
+end

@@ -22,7 +22,7 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ clang llvm cmake ntp zlib1g-dev lib-gtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev
+apt-get -y install g++ clang llvm cmake ntp zlib1g-dev libgtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev
 echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
 cd /usr/local/src
 wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
@@ -50,8 +50,6 @@ source /etc/profile.d/rvm.sh
 rvm install ruby-2.7.8 --with-openssl-dir=/usr/local/ssl/ >>ruby-build.log 2>&1
 rvm --default use ruby-2.7.8 
 
-echo -e "$CYAN--- Installing Minimal Desktop ---$NO_COLOR"
-apt-get install ubuntu-desktop-minimal -y
 echo -e "$CYAN--- Installing Ruby 2.7.8 ---$NO_COLOR"
 
 # setup android NDK link.
