@@ -25,7 +25,7 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ clang llvm cmake ntp zlib1g-dev libgtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev git cmake default-jre curl
+apt-get -y install g++ clang llvm cmake ntp zlib1g-dev libgtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev git cmake default-jre curl libc++-dev
 echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
 cd /usr/local/src
 wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
@@ -57,6 +57,8 @@ source /etc/profile.d/rvm.sh
 rvm install ruby-2.7.8 --with-openssl-dir=/usr/local/ssl/ >>ruby-build.log 2>&1
 rvm --default use ruby-2.7.8 
 
+
+
 # setup android NDK link.
 
 cat << EOF >> /home/vagrant/.profile
@@ -73,6 +75,10 @@ alias sd='cd /Development/GeniusVentures/GeniusTokens/'
 export PATH="\$PATH:/Development/GeniusVentures/GeniusTokens/thirdparty/flutter/bin:\$ANDROID_HOME/cmdline-tools/bin"
 
 EOF
+
+echo -e "$CYAN--- Setting clang as default ---$NO_COLOR"
+update-alternatives --set c++ /usr/bin/clang++
+update-alternatives --set cc /usr/bin/clang
 
 ln -s /usr/bin/python3 /usr/bin/python
 

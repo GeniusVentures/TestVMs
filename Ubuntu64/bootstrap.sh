@@ -22,7 +22,7 @@ apt-get -y update
 # Development Tools
 ###
 echo -e "$CYAN--- Installing Development tools/libraries ---$NO_COLOR"
-apt-get -y install g++ clang llvm cmake ntp zlib1g-dev libgtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev
+apt-get -y install g++ clang llvm cmake ntp zlib1g-dev libgtk-3-dev ninja-build libjsoncpp25 libsecret-1-0 libjsoncpp-dev libsecret-1-dev libc++-dev
 echo -e "$CYAN--- Downloading OpenSSL 1.1.1t ---$NO_COLOR"
 cd /usr/local/src
 wget --no-check-certificate https://www.openssl.org/source/openssl-1.1.1t.tar.gz >/dev/null 2>&1
@@ -58,7 +58,7 @@ cat << EOF >> /home/vagrant/.profile
 export MAKEFLAGS="-j8"
 export CMAKE_BUILD_PARALLEL_LEVEL=8
 declare -x ANDROID_HOME="//Development/ThirdParty/Android"
-declare -x ANDROID_NDK="\$ANDROID_HOME/ndk/android-ndk-r23b"
+declare -x ANDROID_NDK="\$ANDROID_HOME/ndk/android-ndk-r25b"
 declare -x ANDROID_NDK_HOME="\$ANDROID_NDK"
 declare -x ANDROID_TOOLCHAIN="\$ANDROID_NDK/toolchains/llvm/prebuilt/Linux-x86_64/bin"
 export PATH="\$ANDROID_TOOLCHAIN:\$PATH"
@@ -68,6 +68,10 @@ alias sd='cd /Development/GeniusVentures/GeniusTokens/'
 export PATH="$PATH:/Development/GeniusVentures/GeniusTokens/thirdparty/flutter/bin"
 
 EOF
+
+echo -e "$CYAN--- Setting clang as default ---$NO_COLOR"
+update-alternatives --set c++ /usr/bin/clang++
+update-alternatives --set cc /usr/bin/clang
 
 ln -s /usr/bin/python3 /usr/bin/python
 
